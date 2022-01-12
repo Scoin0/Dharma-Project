@@ -1,0 +1,26 @@
+name: Dharma-Project
+version: '${version}'
+main: me.scoin0.dharmaproject.DharmaProject
+api-version: 1.18
+depend: [WorldEdit, ProtocolLib]
+prefix: Dharma
+author: Scoin0
+description: A Dharma Project
+load: STARTUP
+
+commands:
+  dharma:
+    usage: /<command>
+    aliases: [dharmaproject]
+    description: Dharma's Main Command
+
+permissions:
+  dharma.reload:
+    description: Allows you to reload the config
+    default: op
+  dharma.start:
+    description: Begin the Dharma Initiative
+    default: op
+  dharma.stop:
+    description: Stop the Dharma Initiative
+    default: op

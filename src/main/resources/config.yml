@@ -1,0 +1,40 @@
+# Configuration for the Dharma Project Plugin
+# This is a personal plugin and no support will be offered
+# Tested only on Minecraft Version 1.18.1
+
+# Global Properties
+prefix: '&6[&aDharma&6]'
+reloadMessage: '&aConfiguration Reloaded'
+no-Permission: '&cYou do not have permission to use that command'
+invalid-Block-Break: '&cYou cannot break that block'
+
+# Plugin Configuration
+
+# The Hatch
+# The countdownTimer is the amount of time, in seconds, before the world explodes.
+hatch:
+  countdownTimer: 6480
+
+# Smoke Monster
+# health is self-explanatory. It's the amount of health the monster has.
+# coneOfVision is the amount, in blocks, that the monster can see.
+monster:
+  health: 500
+  coneOfVision: 25
+
+# The Others
+# minSpawn is the lowest amount that can spawn at any time
+# maxSpawn is the highest amount that can spawn at any time
+# spawnChance is a percentage that an Other raid could happen during the day/night
+others:
+  minSpawn: 5
+  maxSpawn: 15
+  spawnChance: 15
+
+# Do Not Touch These Values
+countdownTimeLeft: 0
+countdownTask: 0
+buttonPos:
+  x: ''
+  y: ''
+  z: ''
