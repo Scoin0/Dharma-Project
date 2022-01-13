@@ -29,7 +29,7 @@ public class Start  implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
+        //Hold class for pasting the Hatch
         Player player = (Player) sender;
         World world = (World) player.getWorld();
         BukkitWorld world1 = new BukkitWorld(world);
