@@ -4,7 +4,6 @@ import me.scoin0.dharmaproject.commands.Commands;
 import me.scoin0.dharmaproject.event.ButtonInteract;
 import me.scoin0.dharmaproject.event.PlayerDisconnect;
 import me.scoin0.dharmaproject.event.PlayerJoin;
-import me.scoin0.dharmaproject.event.SignEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,7 +41,6 @@ public final class DharmaProject extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         getServer().getPluginManager().registerEvents(new PlayerDisconnect(), this);
         getServer().getPluginManager().registerEvents(new ButtonInteract(), this);
-        getServer().getPluginManager().registerEvents(new SignEvent(), this);
     }
 
     public void reloadConfiguration() {

@@ -25,7 +25,7 @@ public class ButtonInteract implements Listener {
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             if (event.getClickedBlock().getType() == Material.STONE_BUTTON && event.getClickedBlock().getLocation().getBlockX() == plugin.getConfig().getInt("buttonPos.x") && event.getClickedBlock().getLocation().getBlockY() == plugin.getConfig().getInt("buttonPos.y") && event.getClickedBlock().getLocation().getBlockZ() == plugin.getConfig().getInt("buttonPos.z")) {
-                face = event.getBlockFace();
+                face = event.getBlockFace().getOppositeFace();
                 if (plugin.getConfig().getInt("countdownTimeLeft") != 0) {
                     oldTime.cancelTask();
                     DharmaProject.getPlugin().getConfig().set("countdownTimeLeft", 0);
@@ -48,9 +48,8 @@ public class ButtonInteract implements Listener {
     @EventHandler
     public void ButtonDestroyCancel (BlockBreakEvent event) {
         Plugin plugin = DharmaProject.getPlugin();
-        if (event.getBlock().getLocation().getBlockX() == plugin.getConfig().getInt("buttonPos.x") && event.getBlock().getLocation().getBlockY() == plugin.getConfig().getInt("buttonPos.y") && event.getBlock().getLocation().getBlockZ() == plugin.getConfig().getInt("buttonPos.z")) {
+        if (event.getBlock().getType() == Material.STONE_BUTTON && event.getBlock().getLocation().getBlockX() == plugin.getConfig().getInt("buttonPos.x") && event.getBlock().getLocation().getBlockY() == plugin.getConfig().getInt("buttonPos.y") && event.getBlock().getLocation().getBlockZ() == plugin.getConfig().getInt("buttonPos.z")) {
             event.getPlayer().sendMessage("You cannot break this block.");
-
             event.setCancelled(true);
         }
     }

@@ -24,3 +24,9 @@ permissions:
   dharma.stop:
     description: Stop the Dharma Initiative
     default: op
+  dharma.sign:
+    description: Save the location of the sign
+    default: op
+  dharma.button:
+    description: Save the location of the button
+    default: op

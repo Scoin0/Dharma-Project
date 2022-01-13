@@ -8,13 +8,16 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.function.Consumer;
 
 public class CountdownTimer implements Runnable {
 
-    private DharmaProject plugin;
+    int x = DharmaProject.getPlugin().getConfig().getInt("signPos.x");
+    int y = DharmaProject.getPlugin().getConfig().getInt("signPos.y");
+    int z = DharmaProject.getPlugin().getConfig().getInt("signPos.z");
+
+    DharmaProject plugin;
     private Integer assignedTaskId;
 
     private int seconds;
@@ -45,29 +48,9 @@ public class CountdownTimer implements Runnable {
                 () -> sendMessage(playerName, DharmaProject.getPlugin().prefix + ChatColor.translateAlternateColorCodes('&', "&6 The Dharma Initiative has begun.")),
                 () -> sendMessage(playerName, DharmaProject.getPlugin().prefix + ChatColor.translateAlternateColorCodes('&', "&c Congrats. Everyone is dead.")),
                 (t) -> {
-                    int x = DharmaProject.getPlugin().getConfig().getInt("signPos.x");
-                    int y = DharmaProject.getPlugin().getConfig().getInt("signPos.y");
-                    int z = DharmaProject.getPlugin().getConfig().getInt("signPos.z");
-
-                    World world = Bukkit.getWorld(Bukkit.getServer().getPlayer(playerName).getWorld().getName());
-                    Block block = world.getBlockAt(x, y, z);
-                    BlockState state = block.getState();
-
-                    if (!(state instanceof Sign)) {
-                        return;
-                    }
-
-                    String[] testing = Utils.convertSecondsToReadableTime(t.getSecondsLeft()).split(",");
-                    String td = testing[0];
-                    String t2 = testing[1];
-                    Sign sign = (Sign) state;
-                    sign.setGlowingText(true);
-                    sign.setColor(DyeColor.GREEN);
-                    sign.setLine(0, "");
-                    sign.setLine(1, td);
-                    sign.setLine(2, t2);
-                    sign.setLine(3, "");
-                    sign.update();
+                    String[] timerMessage = Utils.convertSecondsToReadableTime(t.getSecondsLeft()).split(",");
+                    World world = Bukkit.getWorld("world");
+                    signUpdater(world, timerMessage);
                 }
         );
         timer.scheduleTimer();
@@ -82,28 +65,9 @@ public class CountdownTimer implements Runnable {
                 () -> sendMessage(playerName, DharmaProject.getPlugin().prefix + ChatColor.translateAlternateColorCodes('&', "&6 The Dharma Initiative has restarted.")),
                 () -> sendMessage(playerName, DharmaProject.getPlugin().prefix + ChatColor.translateAlternateColorCodes('&', "&c Congrats. Everyone is dead.")),
                 (t) -> {
-
-                    int x = DharmaProject.getPlugin().getConfig().getInt("signPos.x");
-                    int y = DharmaProject.getPlugin().getConfig().getInt("signPos.y");
-                    int z = DharmaProject.getPlugin().getConfig().getInt("signPos.z");
-
-                    World world = Bukkit.getWorld(Bukkit.getServer().getPlayer(playerName).getWorld().getName());
-                    Block block = world.getBlockAt(x, y, z);
-                    BlockState state = block.getState();
-
-                    if (!(state instanceof Sign)) {
-                        return;
-                    }
-
-                    String[] testing = Utils.convertSecondsToReadableTime(t.getSecondsLeft()).split(",");
-                    String td = testing[0];
-                    String t2 = testing[1];
-                    Sign sign = (Sign) state;
-                    sign.setLine(0, "");
-                    sign.setLine(1, td);
-                    sign.setLine(2, t2);
-                    sign.setLine(3, "");
-                    sign.update();
+                    String[] timerMessage = Utils.convertSecondsToReadableTime(t.getSecondsLeft()).split(",");
+                    World world = Bukkit.getWorld("world");
+                    signUpdater(world, timerMessage);
                 }
         );
         timer.scheduleTimer();
@@ -118,6 +82,7 @@ public class CountdownTimer implements Runnable {
             if (assignedTaskId != null) Bukkit.getScheduler().cancelTask(assignedTaskId);
             return;
         }
+
         if (secondsLeft == seconds) beforeTimer.run();
         everySecond.accept(this);
         secondsLeft--;
@@ -153,5 +118,42 @@ public class CountdownTimer implements Runnable {
 
     public void sendMessage(String player, String message) {
         Bukkit.getServer().getPlayer(player).sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
+    public void signUpdater(World world, String[] timerMessage) {
+        Block block = world.getBlockAt(x, y, z);
+        BlockState state = block.getState();
+
+        // Is it a sign?
+        if (!(state instanceof Sign)) {
+            return;
+        }
+
+        String line1 = timerMessage[0];
+        String line2 = timerMessage[1];
+        Sign sign = (Sign) state;
+
+        // Color and Bold the Sign
+        if (DharmaProject.getPlugin().getConfig().getInt("countdownTimeLeft") < 60) {
+            sign.setGlowingText(true);
+            sign.setColor(DyeColor.RED);
+        } else {
+            sign.setGlowingText(true);
+            sign.setColor(DyeColor.GREEN);
+        }
+
+        if (!line2.isEmpty()) {
+            sign.setLine(0, "");
+            sign.setLine(1, line1);
+            sign.setLine(2, line2);
+            sign.setLine(3, "");
+        } else {
+            sign.setLine(0, "");
+            sign.setLine(1, line1);
+            sign.setLine(2, "");
+            sign.setLine(3, "");
+        }
+
+        sign.update();
     }
 }
