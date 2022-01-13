@@ -25,7 +25,7 @@ public class PlayerDisconnect implements Listener {
                 if (Utils.getOnlinePlayers().size() == 0) {
                     Bukkit.getConsoleSender().sendMessage(DharmaProject.plugin.prefix + " All players have left. Halting Timer...");
                     timer.cancelTask();
-                    Bukkit.getConsoleSender().sendMessage(DharmaProject.plugin.prefix + " Fully Halted. There is " + Utils.convertSecondsToReadableTime(DharmaProject.plugin.getConfig().getInt("countdownTimeLeft")) + " remaining." + " There are " + Bukkit.getScheduler().getActiveWorkers().size() + "tasks runnning.");
+                    Bukkit.getConsoleSender().sendMessage(DharmaProject.plugin.prefix + " Fully Halted. There is " + Utils.convertSecondsToReadableTime(DharmaProject.plugin.getConfig().getInt("countdownTimeLeft")) + " remaining.");
                 }
             }
         },1000);

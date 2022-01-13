@@ -34,14 +34,8 @@ public class Commands implements CommandExecutor, TabCompleter {
             sender.sendMessage(ChatColor.GOLD + "Preparing the countdown...");
 
             if (DharmaProject.plugin.getConfig().getInt("countdownTimeLeft") == 0) {
-                CountdownTimer timer = new CountdownTimer(DharmaProject.getPlugin(), DharmaProject.plugin.countdownTimer,
-                        () -> sender.sendMessage("Countdown begun"),
-                        () -> {sender.sendMessage("Timer up. Boom.");},
-                        (t) -> sender.sendMessage(ChatColor.YELLOW + "Time left: " + Utils.convertSecondsToReadableTime(t.getSecondsLeft()))
-                );
-                timer.scheduleTimer();
-                int time = timer.getAssignedTaskId();
-                Bukkit.getConsoleSender().sendMessage(DharmaProject.plugin.prefix + " Begun timer with id of " + time);
+                CountdownTimer timer = new CountdownTimer();
+                timer.startTimer(sender.getName());
             } else {
                 sender.sendMessage(DharmaProject.plugin.prefix + ChatColor.RED + " You've already used this command. Use the argument of stop to end the mission.");
             }

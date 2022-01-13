@@ -5,9 +5,16 @@ import me.scoin0.dharmaproject.util.CountdownTimer;
 import me.scoin0.dharmaproject.util.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.checkerframework.checker.units.qual.C;
+
+import java.util.ArrayList;
 
 public class PlayerJoin implements Listener {
 
@@ -16,15 +23,8 @@ public class PlayerJoin implements Listener {
         event.getPlayer().sendMessage(ChatColor.GOLD + "Welcome to the island...");
 
         if (DharmaProject.plugin.getConfig().getInt("countdownTimeLeft") != 0) {
-            event.getPlayer().sendMessage(ChatColor.GOLD + "Resuming Time");
-            CountdownTimer timer = new CountdownTimer(DharmaProject.getPlugin(), DharmaProject.plugin.getConfig().getInt("countdownTimeLeft"),
-                    () -> event.getPlayer().sendMessage("Countdown begun"),
-                    () -> {event.getPlayer().sendMessage("Timer up. Boom.");},
-                    (t) -> event.getPlayer().sendMessage(ChatColor.YELLOW + "Time left: " + Utils.convertSecondsToReadableTime(t.getSecondsLeft()))
-            );
-            timer.scheduleTimer();
-            int time = timer.getAssignedTaskId();
-            Bukkit.getConsoleSender().sendMessage(DharmaProject.plugin.prefix + " Begun timer with id of " + time);
+            CountdownTimer timer = new CountdownTimer();
+            timer.resumeTimer(event.getPlayer().getName());
         }
     }
 }
